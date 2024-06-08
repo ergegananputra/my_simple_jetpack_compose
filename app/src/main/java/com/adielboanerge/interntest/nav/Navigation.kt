@@ -51,7 +51,10 @@ fun MainNavigation() {
         composable<ThirdScreenRoute> {
              ThirdScreen(
                  navController = navController,
-                 viewModel = thirdScreenViewModel
+                 viewModel = thirdScreenViewModel,
+                 updateSelectedUser = { selectedUser ->
+                     secondScreenViewModel.updateSelectedUser(selectedUser)
+                 }
              )
         }
 

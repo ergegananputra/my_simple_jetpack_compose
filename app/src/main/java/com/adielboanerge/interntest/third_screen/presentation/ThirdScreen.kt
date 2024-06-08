@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import com.adielboanerge.interntest.core.presentation.KMTopBar
 import com.adielboanerge.interntest.core.presentation.PullToRefreshAndLoadMoreLazyColumn
 import com.adielboanerge.interntest.nav.SecondScreenRoute
+import com.adielboanerge.interntest.nav.ThirdScreenRoute
 import com.adielboanerge.interntest.third_screen.data.model.RegresContact
 import com.adielboanerge.interntest.third_screen.presentation.components.ItemPerson
 import com.adielboanerge.interntest.ui.theme.JetpackCompose062024Theme
@@ -53,7 +54,8 @@ private fun ThirdScreenDeveloperPreview() {
 @Composable
 fun ThirdScreen(
     navController: NavController,
-    viewModel: ThirdScreenViewModel
+    viewModel: ThirdScreenViewModel,
+    updateSelectedUser: (String) -> Unit = {}
 ) {
     val systemUiController = rememberSystemUiController()
 
@@ -79,7 +81,8 @@ fun ThirdScreen(
         RegresContactList(
             innerPadding,
             viewModel = viewModel,
-            navController = navController
+            navController = navController,
+            updateSelectedUser = updateSelectedUser
         )
     }
 }
@@ -88,7 +91,8 @@ fun ThirdScreen(
 private fun RegresContactList(
     innerPadding: PaddingValues,
     viewModel: ThirdScreenViewModel,
-    navController: NavController
+    navController: NavController,
+    updateSelectedUser: (String) -> Unit = {}
 ) {
     val thirdScreenState by viewModel.state.collectAsState()
 
@@ -107,11 +111,8 @@ private fun RegresContactList(
                     email = regresContact.email!!,
                     avatar = regresContact.avatar!!,
                     onClick = {
-                        navController.navigate(
-                            SecondScreenRoute(
-                                selectedUser = "${regresContact.firstName} ${regresContact.lastName}"
-                            )
-                        )
+                        updateSelectedUser("${regresContact.firstName} ${regresContact.lastName}")
+                        navController.popBackStack()
                     }
                 )
             }
