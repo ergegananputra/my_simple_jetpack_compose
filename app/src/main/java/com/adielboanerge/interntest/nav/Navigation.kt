@@ -8,7 +8,6 @@ import androidx.navigation.toRoute
 import com.adielboanerge.interntest.first_screen.presentation.FirstScreen
 import com.adielboanerge.interntest.first_screen.presentation.FirstScreenViewModel
 import com.adielboanerge.interntest.second_screen.presentation.SecondScreen
-import com.adielboanerge.interntest.second_screen.presentation.SecondScreenState
 import com.adielboanerge.interntest.second_screen.presentation.SecondScreenViewModel
 import com.adielboanerge.interntest.third_screen.presentation.ThirdScreen
 import com.adielboanerge.interntest.third_screen.presentation.ThirdScreenViewModel

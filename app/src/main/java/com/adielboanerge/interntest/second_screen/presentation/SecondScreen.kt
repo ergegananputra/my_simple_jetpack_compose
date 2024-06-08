@@ -20,6 +20,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -40,6 +41,7 @@ import com.adielboanerge.interntest.nav.SecondScreenRoute
 import com.adielboanerge.interntest.nav.ThirdScreenRoute
 import com.adielboanerge.interntest.third_screen.presentation.ThirdScreenState
 import com.adielboanerge.interntest.ui.theme.JetpackCompose062024Theme
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Preview(
     name = "Light Mode",
@@ -62,6 +64,15 @@ fun SecondScreen(
     viewModel: SecondScreenViewModel,
     navController: NavController,
 ) {
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = Color.White,
+            darkIcons = true
+        )
+    }
+
     val secondScreenState by viewModel.state.collectAsState()
 
     val defaultSelectedUser = "Selected User Name"
@@ -133,9 +144,7 @@ fun SecondScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .widthIn(max = 300.dp)
-                    .padding(
-                        vertical = 32.dp
-                    )
+                    .padding(32.dp)
             )
         }
     }

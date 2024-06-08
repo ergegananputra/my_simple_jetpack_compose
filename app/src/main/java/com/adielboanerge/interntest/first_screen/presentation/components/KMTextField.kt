@@ -111,6 +111,7 @@ fun KMTextField(
             BasicTextField(
                 value = value,
                 onValueChange = onValueChange,
+                singleLine = true,
                 textStyle = TextStyle(
                     color = Color.Black,
                     fontWeight = FontWeight.SemiBold,

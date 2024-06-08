@@ -29,7 +29,6 @@ import com.adielboanerge.interntest.core.presentation.KMButton
 import com.adielboanerge.interntest.first_screen.presentation.components.KMPersonAdd
 import com.adielboanerge.interntest.first_screen.presentation.components.KMTextField
 import com.adielboanerge.interntest.nav.SecondScreenRoute
-import com.adielboanerge.interntest.second_screen.presentation.SecondScreenState
 import com.adielboanerge.interntest.ui.theme.JetpackCompose062024Theme
 
 @Preview(

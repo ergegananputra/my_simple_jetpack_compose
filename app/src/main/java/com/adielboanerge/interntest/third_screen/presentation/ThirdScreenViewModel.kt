@@ -16,7 +16,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ThirdScreenViewModel : ViewModel() {
-    val _state = MutableStateFlow(ThirdScreenState())
+    private val _state = MutableStateFlow(ThirdScreenState())
     val state : StateFlow<ThirdScreenState> = _state.asStateFlow()
 
     fun updateEndReached(endReached: Boolean) {
