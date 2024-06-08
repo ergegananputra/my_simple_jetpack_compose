@@ -72,7 +72,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.androidx.ui.text.google.fonts)
-    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation(libs.coil.compose)
 
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
