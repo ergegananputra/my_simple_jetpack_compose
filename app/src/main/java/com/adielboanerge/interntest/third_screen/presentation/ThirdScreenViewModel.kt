@@ -19,7 +19,7 @@ class ThirdScreenViewModel : ViewModel() {
     private val _state = MutableStateFlow(ThirdScreenState())
     val state : StateFlow<ThirdScreenState> = _state.asStateFlow()
 
-    fun updateEndReached(endReached: Boolean) {
+    fun updateIsLoadMore(endReached: Boolean) {
         _state.value = _state.value.copy(isLoadMore = endReached)
     }
 
@@ -37,14 +37,15 @@ class ThirdScreenViewModel : ViewModel() {
     fun refreshContacts() {
         viewModelScope.launch(Dispatchers.IO) {
             updateIsRefreshing(true)
-            getRegresContact(page = 1)
+            getRegresContact(page = 1, isReseted = true)
         }
     }
 
     fun loadMoreContacts() {
         viewModelScope.launch(Dispatchers.IO) {
-            updateIsRefreshing(true)
+            updateIsLoadMore(true)
             val currentPage = _state.value.regresContactList.size / 10 + 1
+            Log.i("ThirdScreenViewModel", "Current Page: $currentPage")
             getRegresContact(page = currentPage)
 
         }
@@ -74,15 +75,27 @@ class ThirdScreenViewModel : ViewModel() {
                                 val data = regresContactResponse.data
 
                                 if (data.isNullOrEmpty()) {
-                                    updateIsRefreshing(false)
+                                    if (isReseted) {
+                                        updateIsRefreshing(false)
+                                    } else {
+                                        updateIsLoadMore(false)
+                                    }
                                     return
                                 }
 
+                                Log.i("ThirdScreenViewModel", "\n\tpage: $page\n\tperPages: $perPage\n\tData: $data")
+
+                                val tempList = (_state.value.regresContactList union data).toList()
+
                                 _state.value = _state.value.copy(
-                                    regresContactList =  if (isReseted) data else _state.value.regresContactList + data,
+                                    regresContactList =  if (isReseted) data else tempList,
                                     isLoadMore = regresContactResponse.page == regresContactResponse.totalPages
                                 )
-                                updateIsRefreshing(false)
+                                if (isReseted) {
+                                    updateIsRefreshing(false)
+                                } else {
+                                    updateIsLoadMore(false)
+                                }
                             } else {
                                 Log.e("ThirdScreenViewModel", "Response is null")
                             }

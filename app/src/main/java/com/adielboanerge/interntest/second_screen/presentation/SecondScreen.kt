@@ -2,28 +2,27 @@ package com.adielboanerge.interntest.second_screen.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -35,13 +34,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.adielboanerge.interntest.core.presentation.KMButton
 import com.adielboanerge.interntest.core.presentation.KMTopBar
-import com.adielboanerge.interntest.first_screen.presentation.FirstScreenState
-import com.adielboanerge.interntest.nav.FirstScreenRoute
-import com.adielboanerge.interntest.nav.SecondScreenRoute
 import com.adielboanerge.interntest.nav.ThirdScreenRoute
-import com.adielboanerge.interntest.third_screen.presentation.ThirdScreenState
 import com.adielboanerge.interntest.ui.theme.JetpackCompose062024Theme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
+import java.util.Timer
+import java.util.TimerTask
 
 @Preview(
     name = "Light Mode",
@@ -81,6 +79,27 @@ fun SecondScreen(
     val labelTopBar = "Second Screen"
     val labelChooseAUser = "Choose a User"
 
+    var isCounting by rememberSaveable {
+        mutableStateOf(true)
+    }
+
+    var timeLeft by remember {
+        mutableIntStateOf(15)
+    }
+
+    LaunchedEffect(key1 = isCounting) {
+        if (isCounting) {
+            while (timeLeft > 0) {
+                delay(1000)
+                timeLeft--
+            }
+
+            isCounting = false
+        }
+
+    }
+
+
     Scaffold(
         topBar = {
             KMTopBar(
@@ -115,6 +134,13 @@ fun SecondScreen(
                 }
             }
 
+            if (isCounting) {
+                Spacer(modifier = Modifier.height(24.dp))
+                FlashsaleHorizontal(
+                    timeLeft,
+                    Modifier.padding(16.dp)
+                )
+            }
 
 
             Spacer(modifier = Modifier.weight(1f))
@@ -149,5 +175,54 @@ fun SecondScreen(
         }
     }
 
+}
+
+@Composable
+fun FlashsaleHorizontal(
+    timeLeft: Int,
+    modifier: Modifier
+) {
+    val dummy = listOf(
+        "Item 1",
+        "Item 2",
+        "Item 3",
+        "Item 4",
+        "Item 5",
+        "Item 6",
+        "Item 7",
+        "Item 8",
+        "Item 9",
+        "Item 10",
+    )
+
+    Surface {
+        Column(
+            modifier = modifier
+        ) {
+            Text(text = "Flash Sale $timeLeft")
+
+            LazyRow {
+                items(dummy.size) {
+                    ItemBox()
+                }
+            }
+
+
+        }
+    }
+}
+
+@Preview
+@Composable
+fun ItemBox() {
+    Surface (
+        color = Color.Green,
+        modifier = Modifier
+            .padding(8.dp)
+            .height(70.dp)
+            .width(30.dp)
+    ){
+
+    }
 }
 

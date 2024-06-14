@@ -112,7 +112,7 @@ private fun RegresContactList(
                     avatar = regresContact.avatar!!,
                     onClick = {
                         updateSelectedUser("${regresContact.firstName} ${regresContact.lastName}")
-                        navController.popBackStack()
+                        navController.navigateUp()
                     }
                 )
             }

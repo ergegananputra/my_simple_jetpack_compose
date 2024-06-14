@@ -41,7 +41,7 @@ fun <T> PullToRefreshAndLoadMoreLazyColumn(
             itemsIndexed(items) { index, it ->
                 content(it)
 
-                if (index == items.size - onLoadMoreTrigger) {
+                if (index >= items.size - onLoadMoreTrigger) {
                     onLoadMore()
                 }
             }
